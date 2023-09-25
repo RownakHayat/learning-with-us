@@ -9,14 +9,15 @@ const Home = () => {
                     Learning With Us
                 </div>
                 <ul className='flex text-white gap-5'>
+                 
                     <Link to='/'>Home</Link>
-                    {/* <Link to="/course">Course</Link> */}
+                    <Link to="/course">Course</Link>
                     <Link to="/enrollCourse">Enroll-Course</Link>
                     <Link to="/curses">Courses</Link>
                     <Link to="/coursesDetails">Course Details</Link>
                     <Link to="/blog">Blog</Link>
                     <Link to="/faq">FAQ</Link>
-                    <Link to='login'>Login</Link>
+                    <Link to="/login" className='btn btn-primary'>Login</Link>
                 </ul>
             </div>
         </div>

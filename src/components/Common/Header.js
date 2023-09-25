@@ -4,6 +4,8 @@ import Home from "../Pages/Home";
 import Course from "../Pages/Course";
 import EnrollCourse from "../Pages/EnrollCourse";
 import Cetagory from "../Pages/Cetagory";
+import LeftSide from "./LeftSide";
+import Login from "../Pages/Login";
 
 
 
@@ -11,10 +13,11 @@ const Header = () => {
 
   return (
     <>
-    <Home></Home>
+    <Login></Login>
+    {/* <LeftSide></LeftSide>
     <Cetagory></Cetagory>
     <Course></Course>
-    <EnrollCourse/>
+    <EnrollCourse/> */}
     </>
   );
 };
