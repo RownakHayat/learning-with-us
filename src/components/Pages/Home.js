@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
     return (
-        <div className='bg-[#2699fb] p-4'>
-            <div className="max-w-[1240px] flex justify-between mx-auto">
-                <div className="text-2xl font-bold">
+        <div className='bg-[#2699fb] p-2'>
+            <div className="flex justify-between mx-auto">
+                <div className="text-1xl font-bold">
                     Learning With Us
                 </div>
                 <ul className='flex text-white gap-5'>

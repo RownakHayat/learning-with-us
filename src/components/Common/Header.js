@@ -14,6 +14,7 @@ const Header = () => {
   return (
     <>
     <Login></Login>
+    
     {/* <LeftSide></LeftSide>
     <Cetagory></Cetagory>
     <Course></Course>

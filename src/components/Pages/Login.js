@@ -1,131 +1,107 @@
-import React, { useState } from 'react';
+import { useRef, useState, useEffect, useContext } from 'react';
+import AuthContext from '../../context/AuthProvider';
+import axios from '../../api/axios';
 
-import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
+const LOGIN_URL = '/auth';
 
 const Login = () => {
-    const [email, setEmail]= useState('');
-    const [password, setPassword] = useState('');
+    const { setAuth } = useContext(AuthContext);
+    const userRef = useRef();
+    const errRef = useRef();
 
-    const handleLoginEvent =(e)=>{
+    const [user, setUser] = useState('');
+    const [pwd, setPwd] = useState('');
+    const [errMsg, setErrMsg] = useState('');
+    const [success, setSuccess] = useState(false);
+
+    useEffect(() => {
+        userRef.current.focus();
+    }, [])
+    useEffect(() => {
+        setErrMsg('');
+    }, [user, pwd])
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if(validate()){
-          // implementation
-          // console.log('proceed');
-          fetch('http://localhost:3000/'+email)
-          .then((res)=> {
-            return res.json();
 
-          }).then((resp)=>{
-            console.log(resp);
-          }).catch((err)=>{
-            toast.error('Login Failed'+err.message);
-          })
-
+        try {
+            const response = await axios.post(LOGIN_URL,
+                JSON.stringify({ user, pwd }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            );
+            console.log(JSON.stringify(response?.data));
+            //console.log(JSON.stringify(response));
+            const accessToken = response?.data?.accessToken;
+            const roles = response?.data?.roles;
+            setAuth({ user, pwd, roles, accessToken });
+            setUser('');
+            setPwd('');
+            setSuccess(true);
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 400) {
+                setErrMsg('Missing Username or Password');
+            } else if (err.response?.status === 401) {
+                setErrMsg('Unauthorized');
+            } else {
+                setErrMsg('Login Failed');
+            }
+            errRef.current.focus();
         }
-    }
-    const validate =()=> {
-      let result= true;
-      if(email === '' || email ===null){
-        result=false;
-        toast.warning('Please Enter valid email');
-      }
-      if(password === '' || password ===null){
-        result= false;
-        toast.warning('Please Enter valid password');
-      }
-      return result;
-
     }
 
     return (
-    <div className="h-screen">
-        <div className="h-full">
-          {/* <!-- Left column container with background--> */}
-          <div
-            className="g-6 flex h-full flex-wrap items-center">
-            <div
-              className="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-6/12 md:shrink-0 lg:w-6/12 xl:w-6/12">
-                <img
-                  src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                  className="w-full"
-                  alt="Sample image" />
-            </div>
-      
-            {/* <!-- Right column container --> */}
-            <div className="mb-12 md:mb-0 md:w-5/12 lg:w-4/12 xl:w-6/12">
-              <form onSubmit={handleLoginEvent}>
-                {/* <!--Sign in section--> */}     
-                {/* <!-- Email input --> */}
-                <div className="relative mb-6" data-te-input-wrapper-init>
-                  <input
-                  value={email} onChange={(e) => setEmail(e.target.value)}
-                    type="email"
-                    className="peer block min-h-[auto] w-full rounded border-2 border-black bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                    id="exampleFormControlInput2"
-                    placeholder="Email address" />
-                  <label
-                   
-                    className="pointer-events-none left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.50rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                    >Email address
-                  </label>
+        <div className='MainPage'>
+            {success ? (
+                <div className='login-section'>
+                    <h1>You are logged in!</h1>
+                    <br />
+                    <p>
+                        <a href="#">Go to Home</a>
+                    </p>
                 </div>
-      
-                {/* <!-- Password input --> */}
-                <div className="relative mb-6" data-te-input-wrapper-init>
-                  <input
-                   value={password} onChange={(e) => setPassword(e.target.value)}
-                    type="password"
-                    className="peer block min-h-[auto] w-full rounded border-2 border-black bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                    id="exampleFormControlInput22"
-                    placeholder="Password" />
-                  <label
-                    
-                    className="pointer-events-none left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.50rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.15rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                    >Password
-                  </label>
-                </div>
-      
-               
-                {/* <!-- Login button --> */}
-                <div className="text-center">
-                  <button
-                  // onClick={handlerSubmit}
-                    type="submit"
-                    className="inline-block rounded bg-[#16a34a] px-7 pb-2.5 pt-2 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] 
-                    transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] 
-                    focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] 
-                    focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] 
-                    dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] 
-                    dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-                    data-te-ripple-init
-                    data-te-ripple-color="light">
-                    Login
-                  </button>
-                  <Link className="ml-4 inline-block rounded bg-blue-300 px-5 pb-2.5 pt-2 text-sm font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] 
-                    transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] 
-                    focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] 
-                    focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] 
-                    dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] 
-                    dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]" 
-                    to={'/register'}>New User</Link>
-      
-                  {/* <!-- Register link --> */}
-                  {/* <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
-                    Don't have an account?
-                    <a
-                      href="#!"
-                      className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700"
-                      > Register </a>
-                  </p> */}
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-         </div> 
-    );
-};
+            ) : (
+                <div className='login-section'>
+                    <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                    <h1>Sign In</h1>
+                    <form onSubmit={handleSubmit}>
+                        <label htmlFor="userEmail">User Email:</label>
+                        <input
+                            type="text"
+                            id="useremail"
+                            ref={userRef}
+                            autoComplete="off"
+                            onChange={(e) => setUser(e.target.value)}
+                            value={user}
+                            required
+                        />
 
-export default Login;
+                        <label htmlFor="password">Password:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            onChange={(e) => setPwd(e.target.value)}
+                            value={pwd}
+                            required
+                        />
+                        <button>Login</button>
+                    </form>
+                    <p>
+                        Need an Account?<br />
+                        <span className="line">
+                            {/*put router link here*/}
+                            <a href="/register">Register</a>
+                        </span>
+                    </p>
+                </div>
+            )}
+        </div>
+    )
+}
+
+export default Login
