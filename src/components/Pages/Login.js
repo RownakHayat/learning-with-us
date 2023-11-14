@@ -11,6 +11,8 @@ const Login = () => {
     const errRef = useRef();
 
     const [user, setUser] = useState('');
+    const [email, setEmail] = useState('');
+
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
@@ -27,7 +29,7 @@ const Login = () => {
 
         try {
             const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ user, pwd }),
+                JSON.stringify({ user, email, pwd }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -37,8 +39,9 @@ const Login = () => {
             //console.log(JSON.stringify(response));
             const accessToken = response?.data?.accessToken;
             const roles = response?.data?.roles;
-            setAuth({ user, pwd, roles, accessToken });
+            setAuth({ user, email, pwd, roles, accessToken });
             setUser('');
+            setEmail('');
             setPwd('');
             setSuccess(true);
         } catch (err) {
@@ -66,18 +69,28 @@ const Login = () => {
                     </p>
                 </div>
             ) : (
-                <div className='login-section'>
+                <div className='login-section w-96'>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Sign In</h1>
                     <form onSubmit={handleSubmit}>
+                        <label htmlFor="userName">User Name:</label>
+                        <input
+                            type="text"
+                            id="username"
+                            ref={userRef}
+                            autoComplete="off"
+                            onChange={(e) => setUser(e.target.value)}
+                            value={user}
+                            required
+                        />
                         <label htmlFor="userEmail">User Email:</label>
                         <input
                             type="text"
                             id="useremail"
                             ref={userRef}
                             autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
-                            value={user}
+                            onChange={(e) => setEmail(e.target.value)}
+                            value={email}
                             required
                         />
 

@@ -4,32 +4,37 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from '../../api/axios';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+// import {getAuth} from 'firebase/auth'
+// import app from '../firebase/firebaseConfiguer'
 
+// const auth = getAuth(app);
 
 const Register = () => {
     const [user, setUser] = useState("");
+    const [email, setEmail] = useState("");
+
     const [password, setPassword] = useState("");
     const [matchPassword, setMatchPassword] = useState("");
-   
+
 
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         // if button enabled with JS hack
-        let regis ={user, password, matchPassword};
+        let regis = { user, email, password, matchPassword };
         // console.log(regis);
         fetch("http://localhost:3000/login", {
-          method:"POST",
-          headers:{'content-type':'application/json'},
-          body:JSON.stringify(regis)
-        }).then((res)=>{
+            method: "POST",
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(regis)
+        }).then((res) => {
             toast.success('Registered successfully')
             navigate('/login');
         }).catch((err) => {
             toast.error('Failed :' + err.message);
         });
-       
+        console.log(regis);
     }
 
     return (
@@ -42,66 +47,86 @@ const Register = () => {
                     </p>
                 </div>
             ) : ( */}
-                <div className='login-section'>
-                    {/* <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p> */}
-                    <h1>Register</h1>
-                    <form onSubmit={handleSubmit}>
-                        <label htmlFor="username">
-                            Username:
-                        </label>
-                        <input
-                            type="text"
-                            id="username"
-                            // ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
-                            value={user}
-                             required
-                            // aria-invalid={validName ? "false" : "true"}
-                            // aria-describedby="uidnote"
-                            // onFocus={() => setUserFocus(true)}
-                            // onBlur={() => setUserFocus(false)}
-                        />
-                        <label htmlFor="password">
-                            Password:
-                        </label>
-                        <input
-                            type="password"
-                            id="password"
-                            onChange={(e) => setPassword(e.target.value)}
-                            value={password}
-                             required
-                            // aria-invalid={validPwd ? "false" : "true"}
-                            // aria-describedby="pwdnote"
-                            // onFocus={() => setPwdFocus(true)}
-                            // onBlur={() => setPwdFocus(false)}
-                        />
+            <div className='login-section w-96 flex' >
+                {/* <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p> */}
+                <h1>Register</h1>
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="username">
+                        Username:
+                    </label>
+                    <input
+                        type="text"
+                        id="username"
+                        // ref={userRef}
+                        autoComplete="off"
+                        onChange={(e) => setUser(e.target.value)}
+                        value={user}
+                        required
+                        className="outline-none"
+                    // aria-invalid={validName ? "false" : "true"}
+                    // aria-describedby="uidnote"
+                    // onFocus={() => setUserFocus(true)}
+                    // onBlur={() => setUserFocus(false)}
+                    />
+                    <label htmlFor="email">
+                        User Email:
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        // ref={userRef}
+                        autoComplete="off"
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
+                        required
+                        className="outline-none"
+                    // aria-invalid={validEmail ? "false" : "true"}
+                    // aria-describedby="uidnote"
+                    // onFocus={() => setUserFocus(true)}
+                    // onBlur={() => setUserFocus(false)}
+                    />
+                    <label htmlFor="password">
+                        Password:
+                    </label>
+                    <input
+                        type="password"
+                        id="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
+                        required
+                        className="outline-none"
+                    // aria-invalid={validPwd ? "false" : "true"}
+                    // aria-describedby="pwdnote"
+                    // onFocus={() => setPwdFocus(true)}
+                    // onBlur={() => setPwdFocus(false)}
+                    />
 
-                        <label htmlFor="confirm_pwd">
-                            Confirm Password:
-                        </label>
-                        <input
-                            type="password"
-                            id="confirm_pwd"
-                            onChange={(e) => setMatchPassword(e.target.value)}
-                            value={matchPassword}
-                            required
-                            // aria-invalid={validMatch ? "false" : "true"}
-                            // aria-describedby="confirmnote"
-                            // onFocus={() => setMatchFocus(true)}
-                            // onBlur={() => setMatchFocus(false)}
-                        />
-                        
-                        <button >Sign Up</button>
-                    </form>
-                    <p>
-                        Already registered?<br />
-                        <span className="line">
-                            {/*put router link here*/}
-                            <a href="/login">Login</a>
-                        </span>
-                    </p>
-                </div>
+                    <label htmlFor="confirm_pwd">
+                        Confirm Password:
+                    </label>
+                    <input
+                        type="password"
+                        id="confirm_pwd"
+                        onChange={(e) => setMatchPassword(e.target.value)}
+                        value={matchPassword}
+                        required
+                        className="outline-none"
+                    // aria-invalid={validMatch ? "false" : "true"}
+                    // aria-describedby="confirmnote"
+                    // onFocus={() => setMatchFocus(true)}
+                    // onBlur={() => setMatchFocus(false)}
+                    />
+
+                    <button >Sign Up</button>
+                </form>
+                <p>
+                    Already registered?<br />
+                    <span className="line">
+                        {/*put router link here*/}
+                        <a href="/login">Login</a>
+                    </span>
+                </p>
+            </div>
             {/* )} */}
         </div>
     )
