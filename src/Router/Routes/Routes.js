@@ -9,8 +9,8 @@ import PrivateRooute from "../../components/Pages/PrivateRooute";
 import Registion from "../../components/Pages/Registion";
 import Login from "../../components/Pages/Login";
 import Blog from "../../components/Pages/Blog";
-import ResetPassword from "../../components/Pages/ResetPassword";
 import Error from "../../components/Pages/Error";
+import Forgetpassword from "../../components/Pages/Forgetpassword";
 
 export const routes =  createBrowserRouter([
     {
@@ -51,6 +51,6 @@ export const routes =  createBrowserRouter([
         { path: "/register", element: <Registion></Registion> },
         { path: "/login", element: <Login></Login> },
         { path: "/blog", element: <Blog></Blog> },
-        { path: "/resetpass", element: <ResetPassword></ResetPassword> },
+        { path: "/forgetpass", element: <Forgetpassword></Forgetpassword> },
         { path: "*", element: <Error></Error> },
       ]);

@@ -12,8 +12,6 @@
 
 html {
     font-family: 'Nunito', sans-serif;
-    font-size: 22px;
-    
 }
 
 body {
@@ -27,13 +25,11 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh; 
-  padding: 1rem 0.5rem;
  
 }
 
 .login-section{
     flex-direction: column;
-    padding: 1rem;
     border: 1px solid rgb(11, 171, 235);
     border-radius: 8px;
 }
@@ -110,8 +106,4 @@ button {
     font-weight: bold;
     padding: 0.5rem;
     margin-bottom: 0.5rem;
-}
-
-.line {
-    display: inline-block;
 }

@@ -36,7 +36,7 @@ const Register = () => {
         });
         console.log(regis);
     }
-
+    
     return (
         <div className="MainPage">
             {/* {success ? (
@@ -47,10 +47,10 @@ const Register = () => {
                     </p>
                 </div>
             ) : ( */}
-            <div className='login-section w-96 flex' >
+            <div className='login-section w-96 flex p-6' >
                 {/* <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p> */}
                 <h1>Register</h1>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} >
                     <label htmlFor="username">
                         Username:
                     </label>

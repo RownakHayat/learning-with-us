@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useContext } from 'react';
-import AuthContext from '../../context/AuthProvider';
+import AuthContext from '../../Share_context/AuthContext/AuthProvider';
 import axios from '../../api/axios';
+import { Link } from 'react-router-dom';
 
 
 const LOGIN_URL = '/auth';
@@ -56,6 +57,7 @@ const Login = () => {
             }
             errRef.current.focus();
         }
+        console.log(pwd, email, user);
     }
 
     return (
@@ -69,7 +71,7 @@ const Login = () => {
                     </p>
                 </div>
             ) : (
-                <div className='login-section w-96'>
+                <div className='login-section w-86 h-86'>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Sign In</h1>
                     <form onSubmit={handleSubmit}>
@@ -82,6 +84,7 @@ const Login = () => {
                             onChange={(e) => setUser(e.target.value)}
                             value={user}
                             required
+                            className='w-50 h-6 outline-none'
                         />
                         <label htmlFor="userEmail">User Email:</label>
                         <input
@@ -92,6 +95,7 @@ const Login = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             value={email}
                             required
+                            className='w-50 h-6 outline-none text-sm'
                         />
 
                         <label htmlFor="password">Password:</label>
@@ -101,14 +105,20 @@ const Login = () => {
                             onChange={(e) => setPwd(e.target.value)}
                             value={pwd}
                             required
+                            className='w-50 h-6 outline-none'
                         />
+
+
                         <button>Login</button>
+                       <p className='text-blue-500'>
+                        <Link to='/forgetpass'>Forget Password</Link>
+                       </p>
                     </form>
-                    <p>
+                    <p className=''>
                         Need an Account?<br />
                         <span className="line">
                             {/*put router link here*/}
-                            <a href="/register">Register</a>
+                            <a href="/register" >Register</a>
                         </span>
                     </p>
                 </div>
