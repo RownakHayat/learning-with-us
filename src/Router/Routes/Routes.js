@@ -6,11 +6,12 @@ import EnrollCourse from "../../components/Pages/EnrollCourse";
 import CourseDetails from "../../components/Pages/CourseDetails";
 import CheckOut from "../../components/Pages/CheckOut";
 import PrivateRooute from "../../components/Pages/PrivateRooute";
-import Registion from "../../components/Pages/Registion";
+// import Registion from "../../components/Pages/Registion";
 import Login from "../../components/Pages/Login";
 import Blog from "../../components/Pages/Blog";
 import Error from "../../components/Pages/Error";
 import Forgetpassword from "../../components/Pages/Forgetpassword";
+import Register from "../../components/Pages/Register";
 
 export const routes =  createBrowserRouter([
     {
@@ -48,7 +49,7 @@ export const routes =  createBrowserRouter([
           ],
         },
       
-        { path: "/register", element: <Registion></Registion> },
+        { path: "/register", element: <Register></Register> },
         { path: "/login", element: <Login></Login> },
         { path: "/blog", element: <Blog></Blog> },
         { path: "/forgetpass", element: <Forgetpassword></Forgetpassword> },

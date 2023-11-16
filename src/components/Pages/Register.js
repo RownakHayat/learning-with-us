@@ -24,16 +24,16 @@ const Register = () => {
         // if button enabled with JS hack
         let regis = { user, email, password, matchPassword };
         // console.log(regis);
-        fetch("http://localhost:3000/login", {
-            method: "POST",
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify(regis)
-        }).then((res) => {
-            toast.success('Registered successfully')
+        // fetch("http://localhost:3000/login", {
+        //     method: "POST",
+        //     headers: { 'content-type': 'application/json' },
+        //     body: JSON.stringify(regis)
+        // }).then((res) => {
+        //     toast.success('Registered successfully')
             navigate('/login');
-        }).catch((err) => {
-            toast.error('Failed :' + err.message);
-        });
+        // }).catch((err) => {
+        //     toast.error('Failed :' + err.message);
+        // });
         console.log(regis);
     }
     

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { createContext } from "react";
-export const ThemeContext2 = createContext(null);
+export const ThemeContext = createContext(null);
 const ThemeContexts = ({ children }) => {
   const [theme, setTheme] = useState("light");
   const toggleTheme = () => {
@@ -11,9 +11,9 @@ const ThemeContexts = ({ children }) => {
   const themeValue = { theme, toggleTheme };
   return (
     <div>
-      <ThemeContext2.Provider value={themeValue}>
+      <ThemeContext.Provider value={themeValue}>
         {children}
-      </ThemeContext2.Provider>
+      </ThemeContext.Provider>
     </div>
   );
 };
