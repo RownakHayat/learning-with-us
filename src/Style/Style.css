@@ -1,0 +1,28 @@
+#light {
+    background-color: #ffffff;
+  }
+  
+  #dark {
+    background-color: #46045e;
+  }
+  
+  #dark h2,
+  h5 {
+    color: white;
+  }
+  
+  #dark p {
+    color: white;
+  }
+  
+  #dark .card-section {
+    background-color: #46045e;
+  }
+  
+  #dark .card-discription h3 {
+    color: white;
+  }
+  
+  #light h5 {
+    color: #4255a4;
+  }
