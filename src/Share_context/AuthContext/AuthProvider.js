@@ -1,19 +1,27 @@
-import { createContext, useState } from "react";
-import {getAuth} from 'firebase/auth'
-import {app} from '../../components/firebase/firebaseConfiguer'
+import { createContext, Component } from "react";
+// import {getAuth} from 'firebase/auth'
+// import {app} from '../../components/firebase/firebaseConfiguer'
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
-const auth = getAuth(app);
+// const auth = getAuth(app);
 
-export const AuthProvider = ({ children }) => {
-    const [auth, setAuth] = useState({});
+class AuthContextProvider extends Component {
+    state = {
+        isAuthenticated: false
+    }
+    toggleAuth = () => {
+        this.setState({ isAuthenticated: !this.state.isAuthenticated });
+    }
 
-    return (
-        <AuthContext.Provider value={{ auth, setAuth }}>
-            {children}
-        </AuthContext.Provider>
-    )
+    render() {
+        return (
+            <AuthContext.Provider value={{ ...this.sate, toggleAuth: this.toggleAuth }}>
+                {this.props.children}
+            </AuthContext.Provider>
+        );
+    }
 }
 
-export default AuthContext;
+export default AuthContextProvider;
+

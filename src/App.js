@@ -2,13 +2,12 @@
 import { RouterProvider } from 'react-router-dom';
 import '../src/Style/Style.css'
 import './App.css'
-import { routes } from './Router/Routes/Routes';
 import { useContext } from 'react';
-import { ThemeContext } from './Share_context/ThemeContext/ThemeContext';
+import ThemeContextProvider from './Share_context/ThemeContext/ThemeContext';
+import { routes } from './Router/Routes/Routes';
 
 function App() {
-
-  const  { theme } = useContext(ThemeContext);
+  const {theme} = useContext(ThemeContextProvider);
   console.log(theme);
   return (
     <>
