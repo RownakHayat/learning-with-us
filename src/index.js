@@ -1,19 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import reportWebVitals from './reportWebVitals';
 import './index.css';
 import App from './App';
-import { ThemeContext } from './Share_context/ThemeContext/ThemeContext'
-import AuthContextProvider from './Share_context/AuthContext/AuthProvider';
+import AuthContextProvider, { AuthContext } from './Share_context/AuthContext/AuthProvider';
+import { ToastContainer } from 'react-toastify';
+import ThemeContextProvider, { ThemeContext } from './Share_context/ThemeContext/ThemeContext';
 
   
-  const root =ReactDOM.createRoot(document.getElementById('root')) ;
-  root.render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
   <React.StrictMode>
-    <ThemeContext>
-     <AuthContextProvider>
-     <App />
-     </AuthContextProvider>
-    </ThemeContext>
-
+    <ThemeContextProvider>
+      <AuthContextProvider>
+          <App />
+      </AuthContextProvider>
+    </ThemeContextProvider>
   </React.StrictMode>,
 );
+reportWebVitals();

@@ -3,16 +3,19 @@ import { RouterProvider } from 'react-router-dom';
 import '../src/Style/Style.css'
 import './App.css'
 import { useContext } from 'react';
-import ThemeContextProvider from './Share_context/ThemeContext/ThemeContext';
 import { routes } from './Router/Routes/Routes';
+import AuthContextProvider, { AuthContext } from './Share_context/AuthContext/AuthProvider';
+import { ToastContainer } from 'react-toastify';
+import { ThemeContext } from './Share_context/ThemeContext/ThemeContext';
 
 function App() {
-  const {theme} = useContext(ThemeContextProvider);
-  console.log(theme);
+  const { theme } = useContext(ThemeContext);
+  const { auth } = useContext(AuthContext);
+  // console.log(theme,auth);
   return (
-    <>
-     <RouterProvider router={routes}></RouterProvider>
-    </>
+    <div>
+          <RouterProvider router={routes}></RouterProvider>
+    </div>
   );
 }
 
