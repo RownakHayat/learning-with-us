@@ -1,13 +1,16 @@
-import { useRef, useState, useEffect, useContext } from 'react';
-import AuthContext from '../../Share_context/AuthContext/AuthProvider';
+import { useContext, useRef, useState, } from 'react';
 import axios from '../../api/axios';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../Share_context/AuthContext/AuthProvider';
 
 
 const LOGIN_URL = '/auth';
 
+
 const Login = () => {
-    // const { setAuth } = useContext(AuthContext);
+    
+const abc = useContext(AuthContext);
+ console.log("login", abc);
     const userRef = useRef();
     const errRef = useRef();
 

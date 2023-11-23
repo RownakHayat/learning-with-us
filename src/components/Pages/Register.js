@@ -1,15 +1,18 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from '../../api/axios';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Share_context/AuthContext/AuthProvider";
 // import {getAuth} from 'firebase/auth'
 // import app from '../firebase/firebaseConfiguer'
 
 // const auth = getAuth(app);
 
 const Register = () => {
+    const {register} = useContext(AuthContext);
+
     const [user, setUser] = useState("");
     const [email, setEmail] = useState("");
 
