@@ -12,6 +12,7 @@ import { AuthContext } from "../../Share_context/AuthContext/AuthProvider";
 
 const Register = () => {
     const {register} = useContext(AuthContext);
+    // console.log(register);
 
     const [user, setUser] = useState("");
     const [email, setEmail] = useState("");
@@ -33,11 +34,20 @@ const Register = () => {
         //     body: JSON.stringify(regis)
         // }).then((res) => {
         //     toast.success('Registered successfully')
-            navigate('/login');
+            // navigate('/login');
         // }).catch((err) => {
         //     toast.error('Failed :' + err.message);
         // });
-        console.log(regis);
+        // console.log(regis);
+            register(email, password)
+            .then(result => {
+                const user = result.user;
+                navigate('/login')
+                console.log('reg', user);
+            })
+            .catch(error => {
+                console.error(error);
+            })
     }
     
     return (

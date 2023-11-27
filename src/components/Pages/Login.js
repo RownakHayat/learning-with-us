@@ -7,10 +7,10 @@ import { AuthContext } from '../../Share_context/AuthContext/AuthProvider';
 const LOGIN_URL = '/auth';
 
 
-const Login = () => {
-    
-const abc = useContext(AuthContext);
- console.log("login", abc);
+const Login = () => {    
+const login = useContext(AuthContext);
+ console.log("login", login);
+
     const userRef = useRef();
     const errRef = useRef();
 
@@ -30,7 +30,7 @@ const abc = useContext(AuthContext);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const form = event.target;
+        // const form = event.target;
         
         // try {
         //     const response = await axios.post(LOGIN_URL,
@@ -61,7 +61,15 @@ const abc = useContext(AuthContext);
         //     }
         //     errRef.current.focus();
         // }
-        console.log(pwd, email, user);
+        login(email, pwd)
+        .then(result => {
+            const user = result.user;
+            console.log(user);
+        })
+        .catch(error => {
+            console.error(error);
+        })
+       
     }
 
     return (
