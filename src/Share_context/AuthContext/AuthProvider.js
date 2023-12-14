@@ -1,26 +1,58 @@
-import React, { createContext, useState } from 'react';
-import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword} from 'firebase/auth';
-import {app} from '../../components/firebase/firebaseConfiguer';
+import React, { createContext, useEffect, useState } from 'react';
+import {FacebookAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut} from 'firebase/auth';
+import { app } from '../../components/firebase/firebaseConfiguer';
 
 export const AuthContext = createContext();
 
 const auth = getAuth(app);
 const AuthContextProvider = ({children}) => {
-  const [user, setUser] = useState(null);
-  const [loding, setLoding] = useState(true);
-  console.log(user);
-  
-  const register =(email, password) =>{
-    return createUserWithEmailAndPassword(auth, email, password);
-  };
- 
-  const login = ( email, password) =>{
-   return signInWithEmailAndPassword(auth, email, password);
-  };
+  const [user, setUser] = useState({displayName: "adsd" });
+  const googleProvider = new GoogleAuthProvider();
+  const facebookProvider = new FacebookAuthProvider();
 
-const authInfo ={
-register,
-login,
+  const [loding, setLoding] = useState(true);
+  
+  
+  const register  = (email, password) =>{
+    console.log("email",email);
+    console.log("password",password);
+    return createUserWithEmailAndPassword(auth, email, password);
+  }
+ 
+  const login = (email, pwd) => {
+    // console.log(email, pwd);
+   return signInWithEmailAndPassword(auth, email, pwd);
+  }
+const logInwithGoogle = () =>{
+return signInWithPopup(auth, googleProvider);
+
+}
+const logInWhithFaccbook = () =>{
+  return signInWithPopup(auth, facebookProvider);
+}
+
+  const logOut = () => {
+   return signOut(auth)
+  }
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, currentUser => {
+    setUser(currentUser);
+    console.log('auth state changed', currentUser);
+})
+return () => {
+  unsubscribe();
+}
+  }, [])
+
+const authInfo = {
+  user,
+  register,
+  login,
+  logOut,
+  logInwithGoogle,
+  logInWhithFaccbook,
+  
+  
 };
   return (
     <AuthContext.Provider value={authInfo}>

@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import App from './App';
-import AuthContextProvider, { AuthContext } from './Share_context/AuthContext/AuthProvider';
+import AuthContextProvider from './Share_context/AuthContext/AuthProvider';
 import { ToastContainer } from 'react-toastify';
-import ThemeContextProvider, { ThemeContext } from './Share_context/ThemeContext/ThemeContext';
+import ThemeContextProvider from './Share_context/ThemeContext/ThemeContext';
 
   
 const root = ReactDOM.createRoot(document.getElementById('root'));

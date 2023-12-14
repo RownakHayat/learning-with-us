@@ -1,24 +1,37 @@
-import { useContext, useRef, useState, } from 'react';
+import { useCallback, useContext, useRef, useState, } from 'react';
 import axios from '../../api/axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Share_context/AuthContext/AuthProvider';
+import { useForm } from 'react-hook-form';
 
 
-const LOGIN_URL = '/auth';
+// const LOGIN_URL = '/auth';
 
 
 const Login = () => {    
-const login = useContext(AuthContext);
- console.log("login", login);
+const {login : userData} = useContext(AuthContext)
 
-    const userRef = useRef();
+
+ const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errMsg },
+ } = useForm();
+
+const resetForm = useCallback(async () => {
+    const result = await fetch("")
+    reset(result)
+}, [reset])
+
+ const navigate = useNavigate();
+
     const errRef = useRef();
 
     const [user, setUser] = useState('');
     const [email, setEmail] = useState('');
 
     const [pwd, setPwd] = useState('');
-    const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
     // useEffect(() => {
@@ -28,8 +41,10 @@ const login = useContext(AuthContext);
     //     setErrMsg('');
     // }, [user, pwd])
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const loginSubmit = (data) => {
+       console.log(data);
+       let logIn = { user, email, pwd};
+        // console.log(logIn);
         // const form = event.target;
         
         // try {
@@ -61,16 +76,17 @@ const login = useContext(AuthContext);
         //     }
         //     errRef.current.focus();
         // }
-        login(email, pwd)
-        .then(result => {
-            const user = result.user;
-            console.log(user);
-        })
-        .catch(error => {
-            console.error(error);
-        })
-       
-    }
+        userData( email, pwd )
+           .then(result => {
+                const user = result.user;
+                resetForm.reset();
+                navigate('/')
+                console.log(user);
+            })
+           .catch(errMsg => {
+            console.error(errMsg);
+           })
+    };
 
     return (
         <div className='MainPage'>
@@ -79,34 +95,28 @@ const login = useContext(AuthContext);
                     <h1>You are logged in!</h1>
                     <br />
                     <p>
-                        <a href="#">Go to Home</a>
+                        <a href="/">Go to Home</a>
                     </p>
                 </div>
             ) : (
                 <div className='login-section w-86 h-86 p-6'>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     <h1>Sign In</h1>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit(loginSubmit)}>
                         <label htmlFor="userName">User Name:</label>
                         <input
                             type="text"
                             id="username"
-                            ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setUser(e.target.value)}
-                            value={user}
+                            {...register("user")}
                             required
                             className='w-50 h-6 outline-none'
                         />
                         <label htmlFor="userEmail">User Email:</label>
                         <input
                             type="text"
-                            id="useremail"
-                            ref={userRef}
-                            autoComplete="off"
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email}
+                            id="email"
                             required
+                            {...register("email")}
                             className='w-50 h-6 outline-none text-sm'
                         />
 
@@ -114,12 +124,10 @@ const login = useContext(AuthContext);
                         <input
                             type="password"
                             id="password"
-                            onChange={(e) => setPwd(e.target.value)}
-                            value={pwd}
                             required
+                            {...register("pwd")}
                             className='w-50 h-6 outline-none'
                         />
-
 
                         <button>Login</button>
                        <p className='text-blue-500'>
@@ -133,6 +141,7 @@ const login = useContext(AuthContext);
                             <a href="/register" >Register</a>
                         </span>
                     </p>
+                    
                 </div>
             )}
         </div>

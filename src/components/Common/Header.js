@@ -13,8 +13,8 @@ const Header = () => {
 
   return (
     <>
-    <Login></Login>
-    
+    {/* <Login></Login> */}
+    <Home></Home>
     {/* <LeftSide></LeftSide>
     <Cetagory></Cetagory>
     <Course></Course>

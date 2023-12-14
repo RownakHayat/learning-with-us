@@ -5,43 +5,53 @@ import axios from '../../api/axios';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Share_context/AuthContext/AuthProvider";
+import { useForm } from "react-hook-form";
+import { FcGoogle } from "react-icons/fc"
+import fbLogo from '../../../src/assest/image/facebook.png'
+
 // import {getAuth} from 'firebase/auth'
 // import app from '../firebase/firebaseConfiguer'
 
 // const auth = getAuth(app);
 
 const Register = () => {
-    const {register} = useContext(AuthContext);
-    // console.log(register);
+  const {register: userData, logInwithGoogle,logInWhithFaccbook } = useContext(AuthContext);
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errMsg },
+      } = useForm()
+    
 
     const [user, setUser] = useState("");
     const [email, setEmail] = useState("");
 
     const [password, setPassword] = useState("");
     const [matchPassword, setMatchPassword] = useState("");
-
+    const [success, setSuccess] = useState(false);
 
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const formSubmit = (data) => {
+        console.log(data);
         // if button enabled with JS hack
         let regis = { user, email, password, matchPassword };
         // console.log(regis);
         // fetch("http://localhost:3000/login", {
         //     method: "POST",
         //     headers: { 'content-type': 'application/json' },
-        //     body: JSON.stringify(regis)
+        //     body: JSON.stringify(data)
         // }).then((res) => {
         //     toast.success('Registered successfully')
-            // navigate('/login');
+        //     navigate('/login');
         // }).catch((err) => {
         //     toast.error('Failed :' + err.message);
         // });
-        // console.log(regis);
-            register(email, password)
+        
+        userData(data?.email, data?.password)
             .then(result => {
-                const user = result.user;
+                const user = result.user
                 navigate('/login')
                 console.log('reg', user);
             })
@@ -49,21 +59,49 @@ const Register = () => {
                 console.error(error);
             })
     }
-    
+    const handleGoogleLogin =() =>{
+        logInwithGoogle()
+        .then(result => {
+            const user = result.user;
+            console.log(user);
+        })
+        .catch(error => console.error(error))
+    }
+    const handleFacebookLogIn =() =>{
+        logInWhithFaccbook()
+        .then(result =>{
+            const user = result.user;
+            console.log(user);
+        })
+        .catch(error => 
+            console.error(error));
+    }
     return (
         <div className="MainPage">
-            {/* {success ? (
+            {success ? (
                 <div className='login-section'>
                     <h1>Success!</h1>
                     <p>
-                        <a href="#">Sign In</a>
+                        <a href="/login">Sign In</a>
                     </p>
                 </div>
-            ) : ( */}
+            ) : (
             <div className='login-section w-96 flex p-6' >
                 {/* <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p> */}
                 <h1>Register</h1>
-                <form onSubmit={handleSubmit} >
+                <div className="flex">
+                    <div className="">
+                        <button className="border-none text-5xl" 
+                        onClick={handleGoogleLogin}
+                        > <FcGoogle /> </button>
+                    </div>
+                    <div className="">
+                        <button
+                        onClick={handleFacebookLogIn}
+                         className="border-none"> <img src={fbLogo} alt="" className="w-10" /> </button>
+                    </div>
+                </div>
+                <form onSubmit={handleSubmit(formSubmit)} >
                     <label htmlFor="username">
                         Username:
                     </label>
@@ -71,9 +109,7 @@ const Register = () => {
                         type="text"
                         id="username"
                         // ref={userRef}
-                        autoComplete="off"
-                        onChange={(e) => setUser(e.target.value)}
-                        value={user}
+                        {...register("user")}
                         required
                         className="outline-none"
                     // aria-invalid={validName ? "false" : "true"}
@@ -87,16 +123,8 @@ const Register = () => {
                     <input
                         type="email"
                         id="email"
-                        // ref={userRef}
-                        autoComplete="off"
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
-                        required
                         className="outline-none"
-                    // aria-invalid={validEmail ? "false" : "true"}
-                    // aria-describedby="uidnote"
-                    // onFocus={() => setUserFocus(true)}
-                    // onBlur={() => setUserFocus(false)}
+                        {...register("email")}
                     />
                     <label htmlFor="password">
                         Password:
@@ -104,14 +132,8 @@ const Register = () => {
                     <input
                         type="password"
                         id="password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                        required
                         className="outline-none"
-                    // aria-invalid={validPwd ? "false" : "true"}
-                    // aria-describedby="pwdnote"
-                    // onFocus={() => setPwdFocus(true)}
-                    // onBlur={() => setPwdFocus(false)}
+                        {...register("password")}
                     />
 
                     <label htmlFor="confirm_pwd">
@@ -140,7 +162,7 @@ const Register = () => {
                     </span>
                 </p>
             </div>
-            {/* )} */}
+            )} 
         </div>
     )
 }

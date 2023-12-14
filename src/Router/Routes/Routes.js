@@ -11,12 +11,18 @@ import Blog from "../../components/Pages/Blog";
 import Error from "../../components/Pages/Error";
 import Forgetpassword from "../../components/Pages/Forgetpassword";
 import Register from "../../components/Pages/Register";
+import Home from "../../components/Pages/Home";
 
 export const routes =  createBrowserRouter([
+ 
     {
         path: '/',
         element: <Main></Main>,
         children: [
+          {
+            path: '/home',
+            element: <Home></Home>,
+          },
             {
               path: "/course",
               element: <Course></Course>,
